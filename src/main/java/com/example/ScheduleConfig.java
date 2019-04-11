@@ -24,7 +24,9 @@ public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
 
         TaskScheduler taskScheduler = taskScheduler();
+        TaskScheduler taskScheduler2 = taskScheduler2();
         scheduledTaskRegistrar.setTaskScheduler(taskScheduler);
+        scheduledTaskRegistrar.setTaskScheduler(taskScheduler2);
     }
 
     @Override
@@ -49,6 +51,20 @@ public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
         scheduler.setPoolSize(20);
         // 设置线程名前缀
         scheduler.setThreadNamePrefix("task-");
+        // 线程内容执行完后60秒停在
+        scheduler.setAwaitTerminationSeconds(60);
+        // 等待所有线程执行完
+        scheduler.setWaitForTasksToCompleteOnShutdown(true);
+        return scheduler;
+    }
+
+
+    @Bean(destroyMethod = "shutdown")
+    public ThreadPoolTaskScheduler taskScheduler2() {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setPoolSize(10);
+        // 设置线程名前缀
+        scheduler.setThreadNamePrefix("task2-");
         // 线程内容执行完后60秒停在
         scheduler.setAwaitTerminationSeconds(60);
         // 等待所有线程执行完

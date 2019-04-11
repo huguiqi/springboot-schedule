@@ -22,7 +22,7 @@ public void fixedDelayJob() throws InterruptedException {
 }
 
  @Scheduled(fixedRate = 20*1000)
- @Async("taskScheduler")
+ @Async("taskScheduler2")
 public void fixedRateJob() throws InterruptedException {
      count ++;
      System.out.println("count is :"+count);
